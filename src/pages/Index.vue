@@ -45,6 +45,11 @@
         cancel-title="Закрыть"
         @hide="closeModal"
     >
+      <b-input-group size="lg" prepend="$" append=".00">
+        <b-form-input
+            v-model="modalData.label"
+        />
+      </b-input-group>
       {{modalData.description}}
     </b-modal>
   </b-container>
@@ -74,7 +79,7 @@ export default {
       this.modalData = {};
     },
     getDataReceipt(index) {
-      this.modalData = this.getReceiptList[index];
+      this.modalData = {...this.getReceiptList[index]};
       this.modalData.index = index;
     },
     getDescription(index) {
