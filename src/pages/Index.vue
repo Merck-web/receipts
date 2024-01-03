@@ -34,7 +34,50 @@
         centered
         @hide="closeModal"
     >
-      {{modalData.description}}
+      <b-container fluid>
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-label">Название рецепта:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-input
+                v-model="modalData.label"
+                id="input-label"
+                class="full-width"
+                readonly
+            />
+          </b-col>
+        </b-row>
+
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-description">Подробное описание:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-textarea
+                v-model="modalData.description"
+                id="input-label"
+                class="full-width"
+                readonly
+            />
+          </b-col>
+        </b-row>
+
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-miniDescription">Краткое описание:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-textarea
+                v-model="modalData.miniDescription"
+                id="input-miniDescription"
+                class="full-width"
+                readonly
+            />
+          </b-col>
+        </b-row>
+
+      </b-container>
     </b-modal>
 
     <b-modal
@@ -43,17 +86,52 @@
         centered
         ok-title="Сохранить"
         cancel-title="Закрыть"
+        @ok="saveEditReceipt"
         @hide="closeModal"
     >
-      <b-input-group size="lg" prepend="$" append=".00">
-        <b-form-input
-            v-model="modalData.label"
-        />
-      </b-input-group>
-      {{modalData.description}}
+      <b-container fluid>
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-label">Изменить название рецепта:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-input
+                v-model="modalData.label"
+                id="input-label"
+                class="full-width"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-description">Изменить подробное описание:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-textarea
+                v-model="modalData.description"
+                id="input-label"
+                class="full-width"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row class="my-2">
+          <b-col sm="12">
+            <label for="input-miniDescription">Изменить краткое описание:</label>
+          </b-col>
+          <b-col sm="12">
+            <b-form-textarea
+                v-model="modalData.miniDescription"
+                id="input-miniDescription"
+                class="full-width"
+            />
+          </b-col>
+        </b-row>
+
+      </b-container>
     </b-modal>
   </b-container>
-
 </template>
 
 <script>
@@ -90,6 +168,12 @@ export default {
       this.getDataReceipt(index);
       this.openModalEdit = true;
     },
+    saveEditReceipt() {
+      this.$store.dispatch('saveEditReceipt', {
+        index: this.modalData.index,
+        newValue: this.modalData
+      })
+    }
   },
   computed: {
     getReceiptList() {

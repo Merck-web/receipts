@@ -6,7 +6,7 @@
         v-for="(item, index) in getList"
         :title="item.label"
         :header="`Рецепт №${index + 1}`"
-        class="m-2"
+        class="m-2 full-width"
         header-tag="header"
         style="max-width: 280px;"
     >
