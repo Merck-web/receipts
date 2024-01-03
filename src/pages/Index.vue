@@ -35,48 +35,9 @@
         @hide="closeModal"
     >
       <b-container fluid>
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-label">Название рецепта:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-input
-                v-model="modalData.label"
-                id="input-label"
-                class="full-width"
-                readonly
-            />
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-description">Подробное описание:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-textarea
-                v-model="modalData.description"
-                id="input-label"
-                class="full-width"
-                readonly
-            />
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-miniDescription">Краткое описание:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-textarea
-                v-model="modalData.miniDescription"
-                id="input-miniDescription"
-                class="full-width"
-                readonly
-            />
-          </b-col>
-        </b-row>
-
+        <FormReceipt
+            :data="modalData"
+        />
       </b-container>
     </b-modal>
 
@@ -90,45 +51,11 @@
         @hide="closeModal"
     >
       <b-container fluid>
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-label">Изменить название рецепта:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-input
-                v-model="modalData.label"
-                id="input-label"
-                class="full-width"
-            />
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-description">Изменить подробное описание:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-textarea
-                v-model="modalData.description"
-                id="input-label"
-                class="full-width"
-            />
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col sm="12">
-            <label for="input-miniDescription">Изменить краткое описание:</label>
-          </b-col>
-          <b-col sm="12">
-            <b-form-textarea
-                v-model="modalData.miniDescription"
-                id="input-miniDescription"
-                class="full-width"
-            />
-          </b-col>
-        </b-row>
-
+        <FormReceipt
+            :data="modalData"
+            is-edit
+            @deleteReceipt="deleteReceipt"
+        />
       </b-container>
     </b-modal>
   </b-container>
@@ -139,10 +66,11 @@
 import Category from "@/components/Category.vue";
 import List from "@/components/List.vue";
 import Header from "@/components/Header.vue";
+import FormReceipt from "@/components/FormReceipt.vue";
 
 export default {
   name: "Index",
-  components: {Header, List, Category},
+  components: {FormReceipt, Header, List, Category},
   data() {
     return {
       openModal: false,
@@ -173,6 +101,10 @@ export default {
         index: this.modalData.index,
         newValue: this.modalData
       })
+    },
+    deleteReceipt(index) {
+      this.$store.dispatch('deleteReceipt', index)
+      this.closeModal();
     }
   },
   computed: {

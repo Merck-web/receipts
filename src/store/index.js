@@ -26,7 +26,9 @@ export default new Vuex.Store({
   mutations: {
     CHANGE_RECEIPT_LIST: (state, payload) => state.receiptList = payload,
 
-    EDIT_RECEIPT_LIST: (state, {index, newValue}) => Vue.set(state.receiptList, index, newValue)
+    EDIT_RECEIPT_LIST: (state, {index, newValue}) => Vue.set(state.receiptList, index, newValue),
+
+    DELETE_RECEIPT: (state, index) => state.receiptList.slice(index, 1),
   },
   actions: {
     getReceiptList({commit}, payload) {
@@ -50,7 +52,15 @@ export default new Vuex.Store({
       catch (error) {
         console.error(error)
       }
-    }
+    },
+    deleteReceipt({commit}, index) {
+      try {
+        commit('DELETE_RECEIPT', index)
+      }
+      catch (error) {
+        console.error(error)
+      }
+    },
   },
   modules: {
   }
