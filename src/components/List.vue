@@ -1,19 +1,18 @@
 <template>
   <div
-      class="row flex-wrap justify-content-start align-items-center"
+      class="row flex-wrap justify-content-start align-items-stretch"
   >
     <b-card
         v-for="(item, index) in getList"
         :title="item.label"
         :header="`Рецепт №${index + 1}`"
-        class="m-2 full-width"
+        class="m-2 full-width card"
         header-tag="header"
-        style="max-width: 280px;"
     >
       <b-card-text
           class="mb-3"
       >
-        {{item.miniDescription}}
+        {{ item.miniDescription }}
       </b-card-text>
 
 
@@ -21,7 +20,9 @@
           v-slot:footer
       >
         <b-row>
-          <b-col>
+          <b-col
+              class="row justify-content-start"
+          >
             <b-button
                 class="my-1"
                 variant="info"
@@ -31,7 +32,9 @@
               Подробнее
             </b-button>
           </b-col>
-          <b-col>
+          <b-col
+              class="row justify-content-end"
+          >
             <b-button
                 class="my-1"
                 variant="warning"
@@ -44,7 +47,7 @@
         </b-row>
       </template>
     </b-card>
-  </div >
+  </div>
 </template>
 
 <script>
@@ -58,3 +61,15 @@ export default {
   }
 }
 </script>
+
+<style
+    lang="scss"
+    scoped
+>
+.card {
+  max-width: 280px;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+</style>
