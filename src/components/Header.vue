@@ -10,16 +10,53 @@
 
     <b-btn
         variant="primary"
+        @click="openModal = true"
     >
       Добавить новый рецепт
     </b-btn>
+
+    <b-modal
+        :visible="openModal"
+        title="Новый рецепт"
+        ok-title="Добавить"
+        cancel-title="Закрыть"
+        centered
+        @ok="addNewReceipt"
+        @hide="closeModal"
+    >
+      <b-container fluid>
+        <FormReceipt
+            :data="modalData"
+            is-edit
+            is-add
+        />
+      </b-container>
+    </b-modal>
   </header>
 </template>
 
 <script>
 
+import FormReceipt from "@/components/FormReceipt.vue";
+
 export default {
-  name: "Header"
+  name: "Header",
+  components: {FormReceipt},
+  data() {
+    return {
+      openModal: false,
+      modalData: {},
+    }
+  },
+  methods: {
+    closeModal() {
+      this.openModal = false;
+      this.modalData = {};
+    },
+    addNewReceipt() {
+      this.$store.dispatch('addNewReceipt', this.modalData)
+    }
+  }
 }
 </script>
 
@@ -31,7 +68,8 @@ export default {
   width: 50px;
   height: 50px;
 }
+
 .card-header {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
 }
 </style>

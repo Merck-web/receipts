@@ -11,7 +11,7 @@
       <b-col sm="12">
         <b-form-input
             v-model="modalData.label"
-            :readonly="!isEdit"
+            :readonly="readonly"
             id="input-label"
             class="full-width"
         />
@@ -29,7 +29,7 @@
       <b-col sm="12">
         <b-form-textarea
             v-model="modalData.description"
-            :readonly="!isEdit"
+            :readonly="readonly"
             id="input-label"
             class="full-width"
         />
@@ -47,7 +47,7 @@
       <b-col sm="12">
         <b-form-textarea
             v-model="modalData.miniDescription"
-            :readonly="!isEdit"
+            :readonly="readonly"
             id="input-miniDescription"
             class="full-width"
         />
@@ -55,14 +55,30 @@
     </b-row>
 
     <b-row
-        v-if="isEdit"
+        v-if="isAdd"
+        class="my-2"
+    >
+      <b-col sm="12">
+        <label
+            for="input-category"
+        >
+          Выберите категорию
+        </label>
+      </b-col>
+      <b-col sm="12">
+        <b-form-select
+            v-model="modalData.category"
+            id="input-category"
+            :options="options"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row
+        v-if="needDelete"
         class="my-2"
     >
       <b-col xs="12" sm="6">
-        <label
-            for="input-miniDescription"
-        >
-        </label>
       </b-col>
       <b-col xs="12" sm="6">
         <b-btn
@@ -74,7 +90,6 @@
         </b-btn>
       </b-col>
     </b-row>
-
   </b-container>
 </template>
 
@@ -84,7 +99,9 @@ export default {
   name: "FormReceipt",
   props: {
     data: { type: Object, default: () => {} },
-    isEdit: { type: Boolean, default: false }
+    isEdit: { type: Boolean, default: false },
+    isAdd: { type: Boolean, default: false },
+    needDelete: { type: Boolean, default: false },
   },
   computed: {
     modalData: {
@@ -94,6 +111,12 @@ export default {
       set(newValue) {
         this.$emit('update:data', newValue)
       }
+    },
+    readonly() {
+      return !this.isEdit
+    },
+    options() {
+      return this.$store.getters.getCategoryList
     }
   }
 }

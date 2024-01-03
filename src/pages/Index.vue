@@ -54,6 +54,7 @@
         <FormReceipt
             :data="modalData"
             is-edit
+            need-delete
             @deleteReceipt="deleteReceipt"
         />
       </b-container>

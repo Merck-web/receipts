@@ -7,9 +7,10 @@
     >
       <b-btn
           class="my-1 full-width"
-          variant="success"
+          :variant="getActiveCategory(item.value)"
+          @click="setActiveCategory(item.value)"
       >
-        {{ item.label }}
+        {{ item.text }}
       </b-btn>
     </li>
   </ul>
@@ -27,8 +28,15 @@ export default {
   methods: {
     getNewCategory(item) {
       this.$store.dispatch('getReceiptList', item)
-    }
-  }
+    },
+    setActiveCategory(value) {
+      this.$store.dispatch('setNewCategory', value)
+    },
+    getActiveCategory(value) {
+      const active = this.$store.getters.getActiveCategory;
+      return active === value ? 'info' : 'success'
+    },
+  },
 }
 </script>
 

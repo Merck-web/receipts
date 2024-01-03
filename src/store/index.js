@@ -12,23 +12,34 @@ export default new Vuex.Store({
       { label: 'еда 3', miniDescription: "Lorem ipsum фылов", description: 'Lorem ipsum ыва Lorem ipsum бт Lorem ipsum дд' },
     ],
     categoryList: [
-      { label: 'Суши' },
-      { label: 'Пиццы' },
-      { label: 'Салаты' },
-      { label: 'Супы' },
+      { value: 1, text: 'Суши' },
+      { value: 2, text: 'Пиццы' },
+      { value: 3, text: 'Салаты' },
+      { value: 4, text: 'Супы' },
     ],
+
+    activeCategory: 1
   },
   getters: {
     getReceiptList: state => state.receiptList,
 
     getCategoryList: state => state.categoryList,
+
+    getActiveCategory: state => state.activeCategory,
   },
   mutations: {
     CHANGE_RECEIPT_LIST: (state, payload) => state.receiptList = payload,
 
     EDIT_RECEIPT_LIST: (state, {index, newValue}) => Vue.set(state.receiptList, index, newValue),
 
-    DELETE_RECEIPT: (state, index) => state.receiptList.slice(index, 1),
+    DELETE_RECEIPT: (state, index) => state.receiptList.splice(index, 1),
+
+    ADD_RECEIPT: (state, payload) => {
+      if (state.activeCategory === payload.category) {
+        state.receiptList.push(payload)
+      }
+    },
+    SET_NEW_CATEGORY: (state, payload) => state.activeCategory = payload
   },
   actions: {
     getReceiptList({commit}, payload) {
@@ -61,6 +72,17 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
+    addNewReceipt({commit}, payload) {
+      try {
+        commit('ADD_RECEIPT', payload)
+      }
+      catch (error) {
+        console.error(error)
+      }
+    },
+    setNewCategory({commit}, payload) {
+      commit('SET_NEW_CATEGORY', payload)
+    }
   },
   modules: {
   }
