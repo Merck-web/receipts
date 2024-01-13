@@ -11,7 +11,8 @@ fastify.register(cors, {
 })
 
 fastify.register(autoload, {
-  dir: path.join(__dirname, 'routes')
+  dir: path.join(__dirname, 'routes'),
+  options: Object.assign({prefix: '/api'})
 })
 
 fastify.listen({ port: process.env.H_PORT}, (err, address) => {
