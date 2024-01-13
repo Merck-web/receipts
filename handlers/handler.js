@@ -75,14 +75,14 @@ async function showRecipe(object) {
                        FROM recipes r
                        WHERE r.id = $1`;
 
-        const result = await client.query(query, [ object.recipeId ]);
+        const result = await client.query(query, [ object.id ]);
         if (result.rows.length > 0) {
             data.message = result.rows[0];
             data.statusCode = 200;
         }
         else {
-            console.log(`showRecipe: Рецепт не найден (id:${object.recipeId})`);
-            data.message = `Рецепт не найден (id:${object.recipeId})`;
+            console.log(`showRecipe: Рецепт не найден (id:${object.id})`);
+            data.message = `Рецепт не найден (id:${object.id})`;
         }
     } catch(err) {
         console.error(err.message, err.stack);
@@ -106,15 +106,15 @@ async function updateRecipe(object) {
                                                                     "categoryId" = $3, 
                                                                     "shortDescription" = $4, 
                                                                     "fullDescription" = $5
-                                                 WHERE id = $1`, [ object.recipeId, object.name, object.categoryId, object.shortDescription, object.fullDescription ]);
+                                                 WHERE id = $1`, [ object.id, object.name, object.categoryId, object.shortDescription, object.fullDescription ]);
 
         if (updateRecipe.rowCount > 0) {
             data.message = 'success';
             data.statusCode = 200;
         }
         else {
-            console.log(`updateRecipe: Рецепт не найден (id:${object.recipeId})`);
-            data.message = `Рецепт не найден (id:${object.recipeId})`;
+            console.log(`updateRecipe: Рецепт не найден (id:${object.id})`);
+            data.message = `Рецепт не найден (id:${object.id})`;
         }
     } catch (err) {
         console.error(err.message, err.stack);
@@ -134,14 +134,14 @@ async function deleteRecipe(object) {
 
     const client = await pool.connect();
     try {
-        const result = await client.query(`DELETE FROM recipes WHERE id = $1`, [ object.recipeId ]);
+        const result = await client.query(`DELETE FROM recipes WHERE id = $1`, [ object.id ]);
         if (result.rowCount > 0) {
             data.message = 'success';
             data.statusCode = 200;
         }
         else {
-            console.log(`deleteRecipe: Рецепт не найден (id:${ object.recipeId })`);
-            data.message = `Рецепт не найден (id:${ object.recipeId })`;
+            console.log(`deleteRecipe: Рецепт не найден (id:${ object.id })`);
+            data.message = `Рецепт не найден (id:${ object.id })`;
         }
     } catch(err) {
         console.error(err.message, err.stack);

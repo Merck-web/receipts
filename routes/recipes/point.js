@@ -72,7 +72,7 @@ module.exports = function (fastify, opts, next) {
             body: {
                 type: 'object',
                 properties: {
-                    recipeId: { type: 'integer' }
+                    id: { type: 'integer' }
                 }
             },
             response: {
@@ -102,7 +102,7 @@ module.exports = function (fastify, opts, next) {
             body: {
                 type: 'object',
                 properties: {
-                    recipeId:         { type: 'integer' },
+                    id:         { type: 'integer' },
                     name:             { type: 'string' },
                     categoryId:       { type: 'integer' },
                     shortDescription: { type: 'string' },
@@ -137,7 +137,7 @@ module.exports = function (fastify, opts, next) {
             body: {
                 type: 'object',
                 properties: {
-                    recipeId: { type: 'integer' }
+                    id: { type: 'integer' }
                 }
             },
             response: {
