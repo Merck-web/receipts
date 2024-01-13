@@ -47,10 +47,10 @@ async function addRecipe(object) {
     const client = await pool.connect();
 
     try {
-        const addGame = await client.query(`INSERT INTO recipes ("name", "categoryId", "shortDescription", "fullDescription")
-                                            VALUES ($1, $2, $3, $4)`, [ object.name, object.categoryId, object.shortDescription, object.fullDescription ]);
+        const addRecipe = await client.query(`INSERT INTO recipes ("name", "categoryId", "shortDescription", "fullDescription")
+                                              VALUES ($1, $2, $3, $4)`, [ object.name, object.categoryId, object.shortDescription, object.fullDescription ]);
 
-        if (addGame.rowCount > 0) {
+        if (addRecipe.rowCount > 0) {
             data.message = 'success';
             data.statusCode = 200;
         }
@@ -85,8 +85,67 @@ async function showRecipe(object) {
             data.statusCode = 200;
         }
         else {
-            console.log(`addRecipe: Не найти информацию по рецепту (id:${ object.recipeId })`);
-            data.message = `Не найти информацию по рецепту (id:${ object.recipeId })`;
+            console.log(`showRecipe: Рецепт не найден (id:${object.recipeId})`);
+            data.message = `Рецепт не найден (id:${object.recipeId})`;
+        }
+    } catch(err) {
+        console.error(err.message, err.stack);
+    } finally {
+        client.release();
+        console.log('Release client');
+    }
+    return data;
+}
+
+async function updateRecipe(object) {
+    const data = {
+        message:    'ERROR',
+        statusCode: 400,
+    };
+
+    const client = await pool.connect();
+
+    try {
+        const updateRecipe = await client.query(`UPDATE recipes SET "name" = $2, 
+                                                                    "categoryId" = $3, 
+                                                                    "shortDescription" = $4, 
+                                                                    "fullDescription" = $5
+                                                 WHERE id = $1`, [ object.recipeId, object.name, object.categoryId, object.shortDescription, object.fullDescription ]);
+
+        if (updateRecipe.rowCount > 0) {
+            data.message = 'success';
+            data.statusCode = 200;
+        }
+        else {
+            console.log(`updateRecipe: Рецепт не найден (id:${object.recipeId})`);
+            data.message = `Рецепт не найден (id:${object.recipeId})`;
+        }
+    } catch (err) {
+        console.error(err.message, err.stack);
+    } finally {
+        client.release();
+        console.log('Release client');
+    }
+
+    return data;
+}
+
+async function deleteRecipe(object) {
+    const data = {
+        message:    'ERROR',
+        statusCode: 400,
+    };
+
+    const client = await pool.connect();
+    try {
+        const result = await client.query(`DELETE FROM recipes WHERE id = $1`, [ object.recipeId ]);
+        if (result.rowCount > 0) {
+            data.message = 'success';
+            data.statusCode = 200;
+        }
+        else {
+            console.log(`deleteRecipe: Рецепт не найден (id:${ object.recipeId })`);
+            data.message = `Рецепт не найден (id:${ object.recipeId })`;
         }
     } catch(err) {
         console.error(err.message, err.stack);
@@ -98,7 +157,9 @@ async function showRecipe(object) {
 }
 
 module.exports = {
-    showRecipes: showRecipes,
-    addRecipe:   addRecipe,
-    showRecipe:  showRecipe,
+    showRecipes:  showRecipes,
+    addRecipe:    addRecipe,
+    showRecipe:   showRecipe,
+    updateRecipe: updateRecipe,
+    deleteRecipe: deleteRecipe,
 }
