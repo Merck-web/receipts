@@ -16,7 +16,7 @@ async function showRecipes(object) {
 
     const client = await pool.connect();
     try {
-        const query = `SELECT r."id", r."name", r."categoryId", r."shortDescription", to_char(r."dateCreate", 'dd.mm.yyyy') AS "dateCreate"
+        const query = `SELECT r."id", r."name", r."categoryId", r."shortDescription", r."fullDescription", to_char(r."dateCreate", 'dd.mm.yyyy') AS "dateCreate"
                        FROM recipes r
                        ${where}
                        ORDER BY r."dateCreate" DESC`;
