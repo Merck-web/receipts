@@ -9,7 +9,6 @@ module.exports = function (fastify, opts, next) {
                 type: 'object',
                 properties: {
                     category: { type: 'integer' },
-                    page:     { type: 'integer' }
                 }
             },
             response: {

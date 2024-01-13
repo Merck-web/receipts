@@ -5,15 +5,12 @@ async function showRecipes(object) {
         message:    'ERROR',
         statusCode: 400,
     };
-    const limit = 16;
-    let page = object.page || 1;
-    let offset = page * limit - limit;
-    let params = [ limit, offset ];
+    let params = [ ];
     let categoryId = object.category;
     let where = '';
 
     if (categoryId) {
-        where += 'WHERE r."categoryId" = $3'
+        where += 'WHERE r."categoryId" = $1'
         params.push(categoryId);
     }
 
@@ -22,8 +19,7 @@ async function showRecipes(object) {
         const query = `SELECT r."id", r."name", r."categoryId", r."shortDescription", to_char(r."dateCreate", 'dd.mm.yyyy') AS "dateCreate"
                        FROM recipes r
                        ${where}
-                       ORDER BY r."dateCreate" DESC
-                       LIMIT $1 OFFSET $2`;
+                       ORDER BY r."dateCreate" DESC`;
 
         const result = await client.query(query, params);
 
