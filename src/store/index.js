@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     receiptList: [
-      { label: 'еда', miniDescription: "Lorem ipsum лдвяоавы", description: 'Lorem ipsum мсчс Lorem ipsum ыу Lorem ipsum мм' },
-      { label: 'еда 1', miniDescription: "Lorem ipsum длвосдляс", description: 'Lorem ipsum ыЧ Lorem ipsum лт Lorem ipsum мм' },
-      { label: 'еда 2', miniDescription: "Lorem ipsum орсыспяо", description: 'Lorem ipsum яыс Lorem ipsum hui Lorem ipsum от' },
-      { label: 'еда 3', miniDescription: "Lorem ipsum фылов", description: 'Lorem ipsum ыва Lorem ipsum бт Lorem ipsum дд' },
+
     ],
     categoryList: [
       { value: 1, text: 'Суши' },
@@ -35,45 +33,48 @@ export default new Vuex.Store({
     DELETE_RECEIPT: (state, index) => state.receiptList.splice(index, 1),
 
     ADD_RECEIPT: (state, payload) => {
-      if (state.activeCategory === payload.category) {
+      if (state.activeCategory === payload.categoryId) {
         state.receiptList.push(payload)
       }
     },
     SET_NEW_CATEGORY: (state, payload) => state.activeCategory = payload
   },
   actions: {
-    getReceiptList({commit}, payload) {
+    async getReceiptList({commit, getters}) {
       try {
-        const response  = [
-          {label: 'лор'},
-          {label: 'лолорт'},
-          {label: 'олрлор'},
-        ]
+        const { data } = await axios.post("api/recipes/show", {
+          category: getters.getActiveCategory
+        })
 
-        commit('CHANGE_RECEIPT_LIST', response);
+        commit('CHANGE_RECEIPT_LIST', data.message);
       }
       catch (error) {
         console.error(error)
       }
     },
-    saveEditReceipt({commit}, {index, newValue}) {
+    async saveEditReceipt({commit}, {index, newValue}) {
       try {
+        await axios.post('api/recipes/updateRecipe', newValue)
         commit('EDIT_RECEIPT_LIST', {index, newValue})
       }
       catch (error) {
         console.error(error)
       }
     },
-    deleteReceipt({commit}, index) {
+    async deleteReceipt({commit}, {index, id}) {
       try {
+        await axios.post('api/recipes/deleteRecipe', {
+          id: id
+        })
         commit('DELETE_RECEIPT', index)
       }
       catch (error) {
         console.error(error)
       }
     },
-    addNewReceipt({commit}, payload) {
+    async addNewReceipt({commit}, payload) {
       try {
+        await axios.post('api/recipes/addRecipe', payload)
         commit('ADD_RECEIPT', payload)
       }
       catch (error) {

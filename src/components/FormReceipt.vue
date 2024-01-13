@@ -10,7 +10,7 @@
       </b-col>
       <b-col sm="12">
         <b-form-input
-            v-model="modalData.label"
+            v-model="modalData.name"
             :readonly="readonly"
             id="input-label"
             class="full-width"
@@ -28,7 +28,7 @@
       </b-col>
       <b-col sm="12">
         <b-form-textarea
-            v-model="modalData.description"
+            v-model="modalData.fullDescription"
             :readonly="readonly"
             id="input-label"
             class="full-width"
@@ -46,7 +46,7 @@
       </b-col>
       <b-col sm="12">
         <b-form-textarea
-            v-model="modalData.miniDescription"
+            v-model="modalData.shortDescription"
             :readonly="readonly"
             id="input-miniDescription"
             class="full-width"
@@ -67,7 +67,7 @@
       </b-col>
       <b-col sm="12">
         <b-form-select
-            v-model="modalData.category"
+            v-model="modalData.categoryId"
             id="input-category"
             :options="options"
         />

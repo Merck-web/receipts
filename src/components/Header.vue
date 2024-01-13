@@ -2,11 +2,17 @@
   <header
       class="row align-items-center justify-content-between flex-wrap card-header"
   >
-    <img
-        class="logo"
-        src="img/logo.png"
-        alt="logo"
+    <div
+        class="row align-items-center"
     >
+      <img
+          class="logo"
+          src="img/logo.png"
+          alt="logo"
+      >
+
+      <span class="font-weight-bold">Recepts</span>
+    </div>
 
     <b-btn
         variant="primary"

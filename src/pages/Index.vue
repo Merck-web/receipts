@@ -104,7 +104,7 @@ export default {
       })
     },
     deleteReceipt(index) {
-      this.$store.dispatch('deleteReceipt', index)
+      this.$store.dispatch('deleteReceipt', {index: index, id: this.modalData.id})
       this.closeModal();
     }
   },
@@ -112,6 +112,9 @@ export default {
     getReceiptList() {
       return this.$store.getters.getReceiptList
     }
+  },
+  async created() {
+    await this.$store.dispatch('getReceiptList')
   }
 }
 </script>

@@ -4,7 +4,7 @@
   >
     <b-card
         v-for="(item, index) in getList"
-        :title="item.label"
+        :title="item.name"
         :header="`Рецепт №${index + 1}`"
         class="m-2 full-width card"
         header-tag="header"
@@ -12,7 +12,7 @@
       <b-card-text
           class="mb-3"
       >
-        {{ item.miniDescription }}
+        {{ item.shortDescription }}
       </b-card-text>
 
 
